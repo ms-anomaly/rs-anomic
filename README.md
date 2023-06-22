@@ -4,16 +4,18 @@ The RS-Anomic dataset contains the performance metrics of 12 services, each havi
 ### Architecture of RobotShop ###
 ![alt text](https://github.com/ms-anomaly/rs-anomic/blob/main/images/application_architecture.png?raw=true)
 
-The updated version of RobotShop consisting implementations of collecting response times and simulating anomalies can be found [here](https://github.com/ms-anomaly/robot-shop)<br/>
+The updated version of RobotShop consisting of implementations of collecting response times and simulating anomalies can be found [here](https://github.com/ms-anomaly/robot-shop)<br/>
 
 ### Data Usage
-[normal_data.zip](https://github.com/ms-anomaly/rs-anomic/blob/main/normal_data.zip) and [anomaly_data.zip](https://github.com/ms-anomaly/rs-anomic/blob/main/anomaly_data.zip) consist of collected raw data in CSV format. Each behaviour consists of 24 CSVs (12 for cAdvisor data and 12 for response time data).<br/>
-For evaluation of stte-of-the-art models we used [train.zip](https://github.com/ms-anomaly/rs-anomic/blob/main/train.zip) and [test.zip](https://github.com/ms-anomaly/rs-anomic/blob/main/test.zip). Training data consists of 80% of normal data since the models used for evaluation do not require anomalous data for training phrase, anomaly data are not used for training.<br/> 
-There are three testing scenarios with normal: anomalous behaviour ratios of 95:5, 90:10, and 60:40. For each scenario, 20% of normal data are merged with anomalous data repective to ratios. anomalous data consisted of ten anomaly types, with an equal number of samples for each type. <br/>
+[normal_data.zip](https://github.com/ms-anomaly/rs-anomic/blob/main/normal_data.zip) and [anomaly_data.zip](https://github.com/ms-anomaly/rs-anomic/blob/main/anomaly_data.zip) consist of collected raw data in CSV format. Each behaviour consists of 24 CSVs (12 for cAdvisor data and 12 for response time data). Example of data loading and preprocessing is available in the load_data.py. To use load_data.py, extract normal_data.zip and anomaly_data.zip in the same folder and run load_data.py from the same folder (../rs-anomic$ python load_data.py). pytorch and pandas are required, tested on versions torch ```1.13.1+cu117``` and pandas ```1.5.3```.
+<br/>
+To reproduce the evaluation results evaluation of the state-of-the-art models [train.zip](https://github.com/ms-anomaly/rs-anomic/blob/main/train.zip) and [test.zip](https://github.com/ms-anomaly/rs-anomic/blob/main/test.zip) can be used. Training data consists of 80% of normal data since the models used for evaluation do not require anomalous data for the training phase, anomaly data are not used for training.
+<br/> 
+There are three testing scenarios with normal: anomalous behaviour ratios of 95:5, 90:10, and 60:40. For each scenario, 20% of normal data are merged with anomalous data respective to ratios. anomalous data consisted of ten anomaly types, with an equal number of samples for each type. <br/>
 Due to the difference in the number of features for each microservice, the number of response times was unified to one feature by taking the summation of all response times recorded for each service
 
 ### Anomalous behaviours in RS-Anomic ###
-These are the anomalies that are injected into the application to simulate anomalous behaviour. Also the commands for tools used for simulations mentioned below for each anomaly. <br/>
+These are the anomalies that are injected into the application to simulate anomalous behaviour. Also the commands for tools used for simulations are mentioned below for each anomaly. <br/>
 
 * Service Down: If a microservice is not working and cannot respond to requests, it is referred to as a service down. Network problems, hardware malfunctions, or software glitches can cause service down. To simulate this issue, we manually terminated the service and observed how the remaining services continued functioning.
 
